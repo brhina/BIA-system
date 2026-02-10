@@ -1,6 +1,7 @@
 import database from '../config/db.js';
 import logger from '../config/logger.js';
 import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
 dotenv.config();
 // import { createAllTables } from './createAllTables.js';
 
@@ -85,43 +86,53 @@ async function seedTables() {
 //   true,
 //   true
 // )`),
-await database.query(`
-  INSERT INTO users (
-    username, email, password, first_name, last_name, role, department, is_active, email_verified
-  ) VALUES
-  (
-  'Brian',
-  'briecoder@gmail.com',
-  'Brie1192', -- password: analyst123
-  'Brian',
-  'Analyst',
-  'analyst',
-  'Analytics',
-  true,
-  true
-),
-(
-  'manager1',
-  'manager1@bi-analytics.com',
-  '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8KzKz2K', -- password: manager123
-  'Jane',
-  'Manager',
-  'manager',
-  'Operations',
-  true,
-  true
-),
-(
-  'user1',
-  'user1@bi-analytics.com',
-  '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8KzKz2K', -- password: user123
-  'Bob',
-  'User',
-  'user',
-  'Sales',
-  true,
-  true
-)`)
+//       const brianPasswordHash = await bcrypt.hash('Brie1192', 12);
+//       await database.query(`
+//   INSERT INTO users (
+//     username, email, password, first_name, last_name, role, department, is_active, email_verified
+//   ) VALUES
+//   (
+//   'Brian',
+//   'briecoder@gmail.com',
+//   $1,
+//   'Brian',
+//   'Analyst',
+//   'analyst',
+//   'Analytics',
+//   true,
+//   true
+// ),
+// (
+//   'manager1',
+//   'manager1@bi-analytics.com',
+//   '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8KzKz2K',
+//   'Jane',
+//   'Manager',
+//   'manager',
+//   'Operations',
+//   true,
+//   true
+// ),
+// (
+//   'user1',
+//   'user1@bi-analytics.com',
+//   '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8KzKz2K',
+//   'Bob',
+//   'User',
+//   'user',
+//   'Sales',
+//   true,
+//   true
+// )
+//   ON CONFLICT (username) DO UPDATE SET
+//     password = EXCLUDED.password,
+//     email = EXCLUDED.email,
+//     first_name = EXCLUDED.first_name,
+//     last_name = EXCLUDED.last_name,
+//     role = EXCLUDED.role,
+//     department = EXCLUDED.department,
+//     is_active = EXCLUDED.is_active,
+//     email_verified = EXCLUDED.email_verified`, [brianPasswordHash])
 
         // INSERT INTO purchase_orders (po_id, supplier_id, created_at, total_amount, status) VALUES
         //           (1007, 1, '2025-09-09 16:40:00', 2750.00, 'rejected'),
